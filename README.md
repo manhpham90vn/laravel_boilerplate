@@ -10,6 +10,7 @@ docker-compose up
 
 ```shell
 docker exec laravel_boilerplate_app composer install
+docker exec laravel_boilerplate_app php artisan jwt:secret -f
 docker exec laravel_boilerplate_app php artisan key:generate
 docker exec laravel_boilerplate_app php artisan config:clear
 docker exec laravel_boilerplate_app php artisan migrate
