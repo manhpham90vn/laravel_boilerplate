@@ -1,0 +1,77 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: laravel_boilerplate_app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "5173:5173"
+    volumes:
+      - ./src:/var/www/html
+      - ./logs:/var/log/apache2
+    networks:
+      - dev-network
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.4.0
+    restart: unless-stopped
+    container_name: laravel_boilerplate_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/initdb.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dev-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    container_name: laravel_boilerplate_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - dev-network
+
+  redis:
+    image: redis:7.2.5-alpine
+    container_name: laravel_boilerplate_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - dev-network
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: unless-stopped
+    container_name: laravel_boilerplate_redis_commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - dev-network
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  dev-network:
+    driver: bridge
