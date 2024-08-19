@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\ApiResponseHelper;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenBlacklistedException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,6 +29,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AuthenticationException $e, Request $request) {
             if ($request->is('api/*')) {
                 return ApiResponseHelper::error($e->getMessage(), null, 401);
+            }
+        });
+
+        $exceptions->render(function (TokenBlacklistedException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return ApiResponseHelper::error($e->getMessage(), null, 500);
             }
         });
     })->create();

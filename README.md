@@ -15,7 +15,7 @@ docker exec laravel_boilerplate_app php artisan key:generate
 docker exec laravel_boilerplate_app php artisan config:clear
 docker exec laravel_boilerplate_app php artisan migrate
 docker exec laravel_boilerplate_app chmod 0777 -R /var/www/html/storage
-docker exec laravel_boilerplate_app chown -R www-data:www-data /var/www/html
+docker exec laravel_boilerplate_app chown -R www-data:www-data /var/www/html/storage
 ```
 
 - start shell
