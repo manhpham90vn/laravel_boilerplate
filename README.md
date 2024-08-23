@@ -1,4 +1,4 @@
-## Laravel Boilerplate
+# Laravel Boilerplate
 
 - bootstrap
 

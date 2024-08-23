@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
+use App\Traits\ApiResponse;
 
 class ApiResponseHelper
 {
