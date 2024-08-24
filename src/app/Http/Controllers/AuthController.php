@@ -7,6 +7,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Auth;
+use Hash;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends BaseController
@@ -21,13 +23,14 @@ class AuthController extends BaseController
     public function register(RegisterRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-        $token = auth()->login($user);
+        $token = Auth::login($user);
 
         $data['user'] = new UserResource($user);
         $data['token'] = $token;
+        
         return $this->successResponse($data, 'Registration successful.');
     }
 
@@ -41,15 +44,16 @@ class AuthController extends BaseController
     public function login(LoginRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $token = auth()->attempt($validated);
+        $token = Auth::attempt($validated);
 
         if (!$token) {
             return $this->errorResponse('Unauthorised.');
         }
 
-        $user = auth()->user();
+        $user = Auth::user();
         $data['token'] = $token;
         $data['user'] = new UserResource($user);
+
         return $this->successResponse($data, 'Login successful.');
     }
 
@@ -60,9 +64,9 @@ class AuthController extends BaseController
      */
     public function profile(): JsonResponse
     {
-        $user = auth()->user();
-
+        $user = Auth::user();
         $data['user'] = new UserResource($user);
+
         return $this->successResponse($data, 'Profile successful.');
     }
 
@@ -73,7 +77,8 @@ class AuthController extends BaseController
      */
     public function logout(): JsonResponse
     {
-        auth()->logout();
+        Auth::logout();
+
         return $this->successResponse(null, 'Logged out successful.');
     }
 
@@ -84,9 +89,8 @@ class AuthController extends BaseController
      */
     public function refresh(): JsonResponse
     {
-        $newToken = auth('api')->refresh();
+        $data['token'] = Auth::refresh();
 
-        $data['token'] = $newToken;
         return $this->successResponse($data, 'Token refreshed successful.');
     }
 }

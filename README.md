@@ -57,7 +57,7 @@ sudo update-alternatives --set php /usr/bin/php8.3
 - install composer
 
 ```shell
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 ```
 
 - install mysql server
