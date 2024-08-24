@@ -1,5 +1,7 @@
 # Laravel Boilerplate
 
+## Use docker
+
 - bootstrap
 
 ```shell
@@ -39,4 +41,33 @@ docker image prune -f -a
 docker volume prune -f -a
 docker network prune -f
 docker system prune
+```
+
+## Use Native
+
+- install php on ubuntu 24.04
+
+```shell
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+sudo apt-get install -y openssl php8.3{,-cli,-common,-fpm,-mysql,-zip,-gd,-mbstring,-curl,-xml,-bcmath,-tokenizer}
+sudo update-alternatives --set php /usr/bin/php8.3
+```
+
+- install composer
+
+```shell
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+```
+
+- install mysql server
+
+```shell
+sudo apt install mysql-server
+```
+
+- install redis
+
+```shell
+sudo apt install redis-server
 ```
