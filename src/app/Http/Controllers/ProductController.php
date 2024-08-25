@@ -23,7 +23,7 @@ class ProductController extends BaseController
         $data['products'] = ProductResource::collection($products->items());
 
         $data['meta'] = [
-            'page' => $products->currentPage(),
+            'current_page' => $products->currentPage(),
             'per_page' => $products->perPage(),
             'total_pages' => $products->lastPage(),
             'total_count' => $products->total(),
