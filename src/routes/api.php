@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -22,4 +23,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::resource('products', ProductController::class);
+    Route::get('categories', [CategoryController::class, 'index']);
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends BaseController
 {
@@ -15,8 +16,11 @@ class ProductController extends BaseController
         $perPage = $request->get('per_page', 5);
         $page = $request->get('page', 1);
 
-        $products = Product::orderBy('created_at', 'asc')->paginate($perPage, ['*'], 'page', $page);
-        $data['products'] = $products->items();
+        $products = Product::with(['category', 'supplier'])
+                        ->orderBy('created_at', 'asc')
+                        ->paginate($perPage, ['*'], 'page', $page);
+
+        $data['products'] = ProductResource::collection($products->items());
 
         $data['meta'] = [
             'page' => $products->currentPage(),
@@ -36,8 +40,9 @@ class ProductController extends BaseController
         return $this->successResponse($product, 'Product created successfully.');
     }
 
-    public function show(Product $product)
+    public function show(string $id)
     {
+        $product = Product::find($id);
         return $this->successResponse($product, 'Product retrieved successfully.');
     }
 
