@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
+            $table->enum('type', ['customer', 'employee', 'shipper', 'supplier']);
             $table->timestamps();
             $table->softDeletes();
         });

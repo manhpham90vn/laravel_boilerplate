@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
+            $user->type = 'customer';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
+            $user->type = 'employee';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -50,6 +52,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
+            $user->type = 'shipper';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -63,6 +66,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
+            $user->type = 'supplier';
             $user->password = Hash::make('12345678');
             $user->save();
 
