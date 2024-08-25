@@ -31,7 +31,7 @@ class AuthController extends BaseController
         $data['user'] = new UserResource($user);
         $data['token'] = $token;
         
-        return $this->successResponse($data, 'Registration successful.');
+        return $this->successResponse($data);
     }
 
 
@@ -54,7 +54,7 @@ class AuthController extends BaseController
         $data['token'] = $token;
         $data['user'] = new UserResource($user);
 
-        return $this->successResponse($data, 'Login successful.');
+        return $this->successResponse($data);
     }
 
     /**
@@ -67,7 +67,7 @@ class AuthController extends BaseController
         $user = Auth::user();
         $data['user'] = new UserResource($user);
 
-        return $this->successResponse($data, 'Profile successful.');
+        return $this->successResponse($data);
     }
 
     /**
@@ -79,7 +79,7 @@ class AuthController extends BaseController
     {
         Auth::logout();
 
-        return $this->successResponse(null, 'Logged out successful.');
+        return $this->successResponse(null);
     }
 
     /**
@@ -91,6 +91,6 @@ class AuthController extends BaseController
     {
         $data['token'] = Auth::refresh();
 
-        return $this->successResponse($data, 'Token refreshed successful.');
+        return $this->successResponse($data);
     }
 }

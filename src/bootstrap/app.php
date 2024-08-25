@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\ApiResponseHelper;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenBlacklistedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -36,12 +37,19 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (TokenBlacklistedException $e, Request $request) {
             if ($request->is('api/*')) {
-                return ApiResponseHelper::error($e->getMessage(), null, 403);
+                return ApiResponseHelper::error($e->getMessage(), null, 401);
+            }
+        });
+
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return ApiResponseHelper::error($e->getMessage(), null, 404);
             }
         });
 
         $exceptions->render(function (Exception $e, Request $request) {
             if ($request->is('api/*')) {
+                dd($e);
                 return ApiResponseHelper::error($e->getMessage(), null, 500);
             }
         });

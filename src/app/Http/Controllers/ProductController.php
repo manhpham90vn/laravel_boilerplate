@@ -17,7 +17,7 @@ class ProductController extends BaseController
         $page = $request->get('page', 1);
 
         $products = Product::with(['category', 'supplier'])
-                        ->orderBy('created_at', 'asc')
+                        ->orderBy('id', 'asc')
                         ->paginate($perPage, ['*'], 'page', $page);
 
         $data['products'] = ProductResource::collection($products->items());
@@ -29,7 +29,7 @@ class ProductController extends BaseController
             'total_count' => $products->total(),
         ];
 
-        return $this->successResponse($data, 'Products retrieved successfully.');
+        return $this->successResponse($data);
     }
 
     public function store(ProductStoreRequest $request)
@@ -37,13 +37,13 @@ class ProductController extends BaseController
         $validated = $request->validated();
         $product = Product::create($validated);
 
-        return $this->successResponse($product, 'Product created successfully.');
+        return $this->successResponse(new ProductResource($product));
     }
 
     public function show(string $id)
     {
-        $product = Product::find($id);
-        return $this->successResponse($product, 'Product retrieved successfully.');
+        $product = Product::findOrFail($id);
+        return $this->successResponse(new ProductResource($product));
     }
 
 
@@ -52,13 +52,14 @@ class ProductController extends BaseController
         $validated = $request->validated();
         $product->update($validated);
 
-        return $this->successResponse($product, 'Product updated successfully.');
+        return $this->successResponse(new ProductResource($product));
     }
 
-    public function destroy(Product $product)
+    public function destroy(string $id)
     {
+        $product = Product::findOrFail($id);
         $product->delete();
 
-        return $this->successResponse(null, 'Product deleted successfully.');
+        return $this->successResponse(null);
     }
 }

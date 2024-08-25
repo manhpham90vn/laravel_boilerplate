@@ -13,6 +13,6 @@ class CategoryController extends BaseController
     public function index()
     {
         $categories = Category::with('products')->get();
-        return $this->successResponse($categories, 'Products retrieved successfully.');
+        return $this->successResponse($categories);
     }
 }
