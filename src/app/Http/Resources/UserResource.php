@@ -17,7 +17,10 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'type' => $this->type,
+            'customer' => $this->when($this->customer !== null, $this->customer),
+            'employee' => $this->when($this->employee !== null, $this->employee),
+            'shipper' => $this->when($this->shipper !== null, $this->shipper),
+            'supplier' => $this->when($this->supplier !== null, $this->supplier),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('type', ['customer', 'employee', 'shipper', 'supplier']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -65,6 +64,13 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('customer_id')->nullable()->constrained('customers');
+            $table->foreignId('employee_id')->nullable()->constrained('employees');
+            $table->foreignId('shipper_id')->nullable()->constrained('shippers');
+            $table->foreignId('supplier_id')->nullable()->constrained('suppliers');
         });
     }
 

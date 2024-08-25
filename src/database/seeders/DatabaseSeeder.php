@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
-            $user->type = 'customer';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -30,12 +29,14 @@ class DatabaseSeeder extends Seeder
             $customer->country = $faker->country;
             $customer->user_id = $user->id;
             $customer->save();
+
+            $user->customer_id = $customer->id;
+            $user->save();
         }
 
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
-            $user->type = 'employee';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -47,12 +48,14 @@ class DatabaseSeeder extends Seeder
             $employee->notes = $faker->text;
             $employee->user_id = $user->id;
             $employee->save();
+
+            $user->employee_id = $employee->id;
+            $user->save();
         }
 
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
-            $user->type = 'shipper';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -61,12 +64,14 @@ class DatabaseSeeder extends Seeder
             $shipper->phone = $faker->phoneNumber;
             $shipper->user_id = $user->id;
             $shipper->save();
+
+            $user->shipper_id = $shipper->id;
+            $user->save();
         }
 
         for ($i = 0; $i < 30; $i++) {
             $user = new \App\Models\User();
             $user->email = $faker->email;
-            $user->type = 'supplier';
             $user->password = Hash::make('12345678');
             $user->save();
 
@@ -80,6 +85,9 @@ class DatabaseSeeder extends Seeder
             $supplier->phone = $faker->phoneNumber;
             $supplier->user_id = $user->id;
             $supplier->save();
+
+            $user->supplier_id = $supplier->id;
+            $user->save();
         }
 
         for ($i = 0; $i < 20; $i++) {

@@ -25,8 +25,7 @@ class RegisterRequest extends FormRequest
         return [
             'email' => 'required|unique:users,email',
             'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'type' => 'required|in:customer,employee,shipper,supplier',
+            'confirm_password' => 'required|same:password'
         ];
     }
 }

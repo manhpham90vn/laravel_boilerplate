@@ -22,6 +22,10 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'type',
         'password',
+        'customer_id',
+        'employee_id',
+        'shipper_id',
+        'supplier_id'
     ];
 
     /**
@@ -33,11 +37,33 @@ class User extends Authenticatable implements JWTSubject
         'password'
     ];
 
-    public function getJWTIdentifier() {
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function shipper()
+    {
+        return $this->hasOne(Shipper::class);
+    }
+
+    public function supplier()
+    {
+        return $this->hasOne(Supplier::class);
     }
 }
