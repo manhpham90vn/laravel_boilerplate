@@ -28,9 +28,9 @@ class AuthController extends BaseController
         $user = User::create($validated);
         $token = Auth::login($user);
 
-        $data['user'] = new UserResource($user);
+        $data['user'] = new UserResource($user->load(['customer', 'employee', 'shipper', 'supplier']));
         $data['token'] = $token;
-        
+
         return $this->successResponse($data);
     }
 
@@ -50,7 +50,7 @@ class AuthController extends BaseController
             return $this->errorResponse('Unauthorised.');
         }
 
-        $user = Auth::user();
+        $user = Auth::user()->load(['customer', 'employee', 'shipper', 'supplier']);
         $data['token'] = $token;
         $data['user'] = new UserResource($user);
 
